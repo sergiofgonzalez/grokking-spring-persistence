@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+
+  <parent>
+    <groupId>com.github.sergiofgonzalez</groupId>
+    <artifactId>grokking-spring-persistence</artifactId>
+    <version>0.0.1-SNAPSHOT</version>
+  </parent>
+  
+  <artifactId>01-representing-object-associations-in-the-db</artifactId>
+
+  <packaging>pom</packaging>
+  
+  <name>|- 01-representing-object-associations-in-the-db</name>
+
+  <description>
+    See README.md for details.
+  </description>  
+  
+  <modules>
+    <!-- No modules, only documentation -->
+  </modules>             
+</project>
