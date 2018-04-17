@@ -9,6 +9,27 @@ The classes are annotated in a way that a single table `user` will be used to ho
 
 The application tests include a test harness demonstrating how to query *User* and *Email* objects using Spring Data JPA framework.
 
+## How to Run the Project
+
+1. Create a sample database for the project
+```sql
+CREATE DATABASE `spring_persistence` /*!40100 COLLATE 'utf8_bin' */
+```
+
+2. Configure the datasource for your working environment:
+```yaml
+spring:
+  datasource:
+    # url, username and password: configure the connection string and parameters for your environment 
+    url: jdbc:mysql://java_dev_db:3306/spring_persistence?autoReconnect=true&useSSL=false
+    username: theuser
+    password: thepass
+    
+    continue-on-error: false # Forcefully stop if problem found while initializing the db
+```
+
+3. Explore and Run the test classes found in `src/test/java`
+
 ## Relevant Project Artifacts
 
 + `domain/` &mdash; contains the definition of the Entities
