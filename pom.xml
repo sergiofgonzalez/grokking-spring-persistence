@@ -48,5 +48,6 @@
 
   <modules>
     <module>01-representing-object-associations-in-the-db</module>
+    <module>02-using-jpa-for-modeling-entity-relationships</module>
   </modules>
 </project>
