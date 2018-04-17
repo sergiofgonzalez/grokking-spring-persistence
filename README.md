@@ -25,3 +25,7 @@
 + [A. Mapping One-to-One Associations](02-using-jpa-for-modeling-entity-relationships/README.md#a-mapping-one-to-one-associations)
   + [A1. One-to-One: Mapping an Embedded One-to-One Association](02-using-jpa-for-modeling-entity-relationships/README.md#a1-one-to-one-mapping-an-embedded-one-to-one-association)
     + [Sample 1 &mdash; One-to-One: Embedded](02-using-jpa-for-modeling-entity-relationships/001-one-to-one-embedded)
+  + [A2. One-to-One: Tables Sharing the Primary Key](02-using-jpa-for-modeling-entity-relationships/README.md#a2-one-to-one-tables-sharing-the-primary-key)
+  + [A3. One-to-One: Distinct Tables](02-using-jpa-for-modeling-entity-relationships/README.md#a3-one-to-one-distinct-tables) 
+    + [A) Unidirectional One-to-One Association](02-using-jpa-for-modeling-entity-relationships/README.md#a-unidirectional-one-to-one-association)
+      + [Sample 2 &mdash; One-to-One: Unidirectional](02-using-jpa-for-modeling-entity-relationships/002-one-to-one-unidirectional)

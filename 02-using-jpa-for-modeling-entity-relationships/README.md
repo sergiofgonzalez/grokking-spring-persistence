@@ -82,3 +82,73 @@ Note that:
 + the `Email` class does not require any JPA annotations at the class level.
 
 You can review a working example of this scenario in [001 &mdash; One-to-One: Embedded](001-one-to-one-embedded/).
+
+### A2. One-to-One: Tables Sharing the Primary Key
+
+JPA does not provide a direct way to map your entities to implement the one-to-one association in this way. Workarounds are available (like defining the `Email` entity with a non-generated identifier, and manage the associated id for the associated `User` as a regular field) but those feel *hackish* and lead to an overly complicated solution.
+
+![One-to-One: Single Table](../01-representing-object-associations-in-the-db/images/08-one-to-one-multiple-tables.png)
+
+### A3. One-to-One: Distinct Tables
+
+In this scenario you use two distinct tables with the key from one entity maintained by the other entity. This approach requires an extra *unique* constraint placed in the foreign key column that otherwise would allow a one-to-many relationship.
+
+![One-to-One: Single Table](../01-representing-object-associations-in-the-db/images/09-one-to-one-distinct-tables.png)
+
+This type of relationship can be expressed with a `@OneToOne` annotations. This approach is useful if you suspect that the relationship can change in the future from a one-to-one to a one-to-many or many-to-one. Otherwise, the approach on [A1. One-to-One: Mapping an Embedded One-to-One Association](#a1-one-to-one-mapping-an-embedded-one-to-one-association) should be preferred.
+
+#### A) Unidirectional One-to-One Association
+
+In this approach, you select one of the entities (i.e. `User`) as the class *owning* the other class (i.e. `Email`):
+
+![One-to-One: Single Table](images/01-one-to-one-unidirectional.png)
+
+The following listing shows both classes annotated in a way that is consistent with the previous picture:
+
+```java
+@Entity
+@Table(name = "email")
+public class Email {
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
+    
+    @Column(length = 50, nullable = false)
+    private String email;
+    
+    protected Email() {     
+    }
+    
+...
+}
+```
+
+```java
+@Entity
+@Table(name = "user")
+public class User {
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
+    
+    @Column(length = 50, nullable = false)
+    private String username;
+    
+    @Column(length = 50, nullable = false)
+    private String password;
+    
+    @OneToOne
+    @JoinColumn(unique = true)
+    private Email email;
+    
+    protected User() {      
+    }
+    
+...
+```
+
+Note that in this case, the `Email` class is a full-fledged JPA entity, and therefore, can have its own data access repositories.
+
+You can review a working example of this scenario in [002 &mdash; One-to-One: Unidirectional](002-one-to-one-unidirectional/).

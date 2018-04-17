@@ -24,16 +24,16 @@ public class UserRepositoryIntegrationTests {
 	
 	@Autowired
 	private UserRepository userRepository;
-	
+
 	@Test
-	@Sql({ "/sql/truncate-tables.sql" })
+	@Sql({ "/sql/schema/create-schema.sql", "/sql/truncate-tables.sql" })
 	public void testFindAllEmpty() {
 		List<User> users = (List<User>) userRepository.findAll();
 		assertThat(users.size()).isEqualTo(0L);
 	}
 	
 	@Test
-	@Sql({ "/sql/truncate-tables.sql", "/sql/insert-5-users.sql" })
+	@Sql({ "/sql/schema/create-schema.sql", "/sql/truncate-tables.sql", "/sql/insert-5-users.sql" })
 	public void testFindAllWithFiveRows() {
 		List<User> users = (List<User>) userRepository.findAll();
 		assertThat(users.size()).isEqualTo(5L);
@@ -42,7 +42,7 @@ public class UserRepositoryIntegrationTests {
 	}	
 	
 	@Test
-	@Sql({ "/sql/truncate-tables.sql" })
+	@Sql({ "/sql/schema/create-schema.sql", "/sql/truncate-tables.sql" })
 	public void testSaveOneUser() {
 		User user = new User("jason", "isaacs");
 		user.addEmail(new Email("jason@wittertainment.co.uk"));
@@ -55,7 +55,7 @@ public class UserRepositoryIntegrationTests {
 	}	
 	
 	@Test
-	@Sql({ "/sql/truncate-tables.sql" })
+	@Sql({ "/sql/schema/create-schema.sql", "/sql/truncate-tables.sql" })
 	public void testSaveOneUserAndFindShouldBeEqual() {
 		User user = new User("jason", "isaacs");
 		user.addEmail(new Email("jason@wittertainment.co.uk"));
@@ -69,7 +69,7 @@ public class UserRepositoryIntegrationTests {
 	}
 	
 	@Test
-	@Sql({ "/sql/truncate-tables.sql", "/sql/insert-1-user.sql" })
+	@Sql({ "/sql/schema/create-schema.sql", "/sql/truncate-tables.sql", "/sql/insert-1-user.sql" })
 	public void testDeleteUserShouldFailWithoutId() {
 		User user = new User("user1", "password1");
 		user.addEmail(new Email("user1@example.com"));
@@ -88,7 +88,7 @@ public class UserRepositoryIntegrationTests {
 	}
 	
 	@Test
-	@Sql({ "/sql/truncate-tables.sql", "/sql/insert-1-user.sql" })
+	@Sql({ "/sql/schema/create-schema.sql", "/sql/truncate-tables.sql", "/sql/insert-1-user.sql" })
 	public void testDeleteUserShouldWorkWithId() {
 		User savedUser = ((List<User>) userRepository.findAll()).get(0);
 		userRepository.delete(savedUser);
@@ -100,7 +100,7 @@ public class UserRepositoryIntegrationTests {
 	}	
 	
 	@Test
-	@Sql({ "/sql/truncate-tables.sql", "/sql/insert-1-user.sql" })
+	@Sql({ "/sql/schema/create-schema.sql", "/sql/truncate-tables.sql", "/sql/insert-1-user.sql" })
 	public void testSaveAlsoUpdateExistingUser() {
 		User savedUser = ((List<User>) userRepository.findAll()).get(0);
 		User newUser = new User(savedUser.getId(), savedUser.getUsername() + "-copy", savedUser.getPassword() + "-copy");
@@ -117,7 +117,7 @@ public class UserRepositoryIntegrationTests {
 	
 	
 	@Test
-	@Sql({ "/sql/truncate-tables.sql", "/sql/insert-5-users.sql" })
+	@Sql({ "/sql/schema/create-schema.sql", "/sql/truncate-tables.sql", "/sql/insert-5-users.sql" })
 	public void testFindAllEmails() {
 		List<Email> emails = StreamSupport.stream(userRepository.findAll().spliterator(), false)
 					.map(user -> user.getEmail())
@@ -128,11 +128,12 @@ public class UserRepositoryIntegrationTests {
 	}
 	
 	@Test
-	@Sql({ "/sql/truncate-tables.sql", "/sql/insert-5-users.sql" })
+	@Sql({ "/sql/schema/create-schema.sql", "/sql/truncate-tables.sql", "/sql/insert-5-users.sql" })
 	public void testFindByEmail() {
 		List<User> users = (List<User>) userRepository.findByEmailEmailLikeIgnoringCase("%");
 		
 		assertThat(users.size()).isEqualTo(5L);
 		assertThat(users.stream().map(user -> user.getUsername()).collect(toList())).containsExactlyInAnyOrder("user1", "user2", "user3", "user4", "user5");
-		assertThat(users.stream().map(user -> user.getEmail().getEmail()).collect(toList())).containsExactlyInAnyOrder("user1@example.com", "user2@example.com", "user3@example.com", "user4@example.com", "user5@example.com");	}	
+		assertThat(users.stream().map(user -> user.getEmail().getEmail()).collect(toList())).containsExactlyInAnyOrder("user1@example.com", "user2@example.com", "user3@example.com", "user4@example.com", "user5@example.com");	
+	}	
 }

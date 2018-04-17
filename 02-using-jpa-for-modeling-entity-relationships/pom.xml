@@ -21,5 +21,6 @@
   
   <modules>
     <module>001-one-to-one-embedded</module>
+    <module>002-one-to-one-unidirectional</module>
   </modules>             
 </project>

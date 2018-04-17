@@ -5,9 +5,13 @@ spring:
     password: thepass
     
     continue-on-error: false # Forcefully stop if problem found while initializing the db
+    
+    separator: "//"
+    initialization-mode: always
         
     schema:
     - sql/schema/create-schema.sql
+    - sql/schema/create-supporting-stored-procs.sql
     data:
     - sql/data/sample-data.sql
     
