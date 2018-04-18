@@ -22,5 +22,11 @@
   <modules>
     <module>001-one-to-one-embedded</module>
     <module>002-one-to-one-unidirectional</module>
+    <module>003-one-to-one-bidirectional</module>
+    <module>004-one-to-many-unidirectional</module>    
+    <module>005-one-to-many-bidirectional</module>
+    <module>006-one-to-many-unidirectional-link-table</module>
+    <module>007-many-to-one-unidirectional-link-table</module>
+    <module>008-one-to-many-bidirectional-link-table</module>    
   </modules>             
 </project>

@@ -1,0 +1,26 @@
+spring:
+  datasource:
+    url: jdbc:mysql://java_dev_deb:3306/spring_persistence?autoReconnect=true&useSSL=false
+    username: theuser
+    password: thepass
+    
+    continue-on-error: false # Forcefully stop if problem found while initializing the db
+    
+    separator: "//"
+    initialization-mode: always
+        
+    schema:
+    - sql/schema/create-schema.sql
+    - sql/schema/create-supporting-stored-procs.sql
+    data:
+    - sql/data/sample-data.sql
+    
+  jpa:
+    show-sql: true
+#    hibernate.ddl-auto: create  # use `create` to force creation of tables from JPA annotations
+    
+    properties:
+      hibernate.dialect: org.hibernate.dialect.MySQL57Dialect # this is needed; otherwise MyISAM engine is used instead of InnoDB
+     
+      
+    
