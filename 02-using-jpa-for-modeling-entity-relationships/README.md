@@ -582,3 +582,336 @@ The `Email` entity features a `@ManyToOne` on its `user` field. Note that the `m
 | This arrangement creates a little bit of a *Frankenstein* table design. On the one hand, the `email` table features a `user_id` field as if the relationship was a one-to-one. On the other hand, a link table is also created. The first one is used precisely when a user is bound to single email, and the second when a user has several emails |
 
 You can find a working example of this scenario in [008 &mdash; One-to-Many: Bidirectional Link Table](008-one-to-many-bidirectional-link-table/).
+
+## C. Mapping Many-to-Many Associations
+
+Let's consider the scenario for a many-to-many relationship between a *User* and *Email* entities:
+
+![Many-to-Many: Unidirectional](images/05-one-to-many-unidirectional-email-owns.png)
+
+Note how the class diagram is identical to the one-to-many association. The difference now is that we want to allow several *User* instances to share the same *Email*
+
+q1: Can an Email belong to more than one User? **Yes**
+q2: Can a User belong to more than one Email? **Yes**
+
+### C1. Many-to-Many: Link Table
+
+This section explores how to implement the many-to-many relationship with a link table.
+
+#### A) Unidirectional Many-to-Many Association: User as Owner
+
+Let's implement the following class diagram, making the `User` class the owner of the relationship.
+
+![Many-to-Many: Unidirectional](images/05-one-to-many-unidirectional-email-owns.png)
+
+The `Email` entity is completely unaware of the relationship:
+
+```java
+@Entity
+@Table(name = "email")
+public class Email {
+
+	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	private Long id;
+	
+	@Column(length = 50, nullable = false)
+	private String email;
+		
+	protected Email() {		
+	}
+...
+}
+```
+
+The `User` Entity features a `@OneToMany` relationship:
+
+```java
+@Entity
+@Table(name = "user")
+public class User {
+
+	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	private Long id;
+	
+	@Column(length = 50, nullable = false)
+	private String username;
+	
+	@Column(length = 50, nullable = false)
+	private String password;
+
+	@ManyToMany(fetch = FetchType.EAGER)
+	@JoinTable(uniqueConstraints = { @UniqueConstraint(columnNames = { "user_id", "emails_id" }) })
+	private Set<Email> emails = new HashSet<>();
+	
+	protected User() {		
+	}
+	
+	public User(String username, String password) {
+		this.username = username;
+		this.password = password;
+	}
+	
+	public User(Long id, String username, String password) {
+		this.id = id;
+		this.username = username;
+		this.password = password;
+	}
+
+	
+	public Long getId() {
+		return id;
+	}
+
+	public String getUsername() {
+		return username;
+	}
+
+	public String getPassword() {
+		return password;
+	}
+		
+	public Set<Email> getEmails() {
+		return Collections.unmodifiableSet(this.emails);
+	}
+
+	public void addEmail(Email email) {
+		this.emails.add(email);
+    }
+...
+}
+``` 
+
+The `@JoinTable` annotation requests the creation of an index on the `user_id` and `emails_id` columns to prevent a `User` to be associated to the same `Email` more than once. However, associating the same `Email` two different users is allowed.
+
+You can find a working example of this scenario in [009 &mdash; Many-to-Many: Unidirectional Link Table (user owning the relationship)](009-many-to-many-unidirectional-link-table-user-owns/).
+
+#### B) Unidirectional Many-to-Many Association: Email as Owner
+
+In this scenario, we implement the many-to-many association, navigable from the `Email` to the associated `User` instances.
+
+![Many-to-Many: Unidirectional](images/08-many-to-many-unidirectional-link-table-email-owns.png)
+
+The `Email` entity defines a many-to-many relationship to the `User` entity:
+
+```java
+@Entity
+@Table(name = "email")
+public class Email {
+
+	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	private Long id;
+	
+	@Column(length = 50, nullable = false)
+	private String email;
+		
+	@ManyToMany(fetch = FetchType.EAGER)
+	@JoinTable(uniqueConstraints = { @UniqueConstraint(columnNames = { "users_id", "email_id" }) })
+	private List<User> users = new ArrayList<>();
+	
+	protected Email() {		
+	}
+	
+	public Email(String email) {
+		this.email = email;
+	}
+	
+...				
+	public List<User> getUsers() {
+		return Collections.unmodifiableList(users);
+	}
+	
+	public void addUser(User user) {
+		this.users.add(user);
+	}
+
+...
+}
+```
+
+Note that in order to prevent a given user to be assigned twice the same email, and the same email to be assigned twice the same user we need to use the `@JoinTable` annotation with the given unique constraints.
+
+The `User` class is completely unaware of the relationship:
+
+```java
+@Entity
+@Table(name = "user")
+public class User {
+
+	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	private Long id;
+	
+	@Column(length = 50, nullable = false)
+	private String username;
+	
+	@Column(length = 50, nullable = false)
+	private String password;
+	
+	protected User() {		
+	}
+...
+```
+
+A working example of this scenario can be found in [010 &mdash; Many-to-Many: Unidirectional Link Table (email owning the relationship)](010-many-to-many-unidirectional-link-table-email-owns/).
+
+#### C) Bidirectional Many-to-Many Association (with owner)
+
+In this scenario, we implement the many-to-many association, navigable from the `User` to the associated `Email` instances and vice versa:
+
+![Many-to-Many: Unidirectional](images/09-many-to-many-bidirectional-link-table-with-owner.png)
+
+In this case, both `User` and `Email` entities are aware of the many-to-many relationship. Both entities feature the `@ManyToMany` association, but we will make the `User` the owner of the relationship.
+
+| Note |
+|------|
+| Making an entity the owner of a many-to-many relationship prevents the JPA framework from creating two join tables (i.e. `user_email` and `email_user`) when only one is needed. |
+
+The `Email` entity, as the owned class, will be annotated with `@ManyToMany(mappedBy = "users")`:
+
+```java
+@Entity
+@Table(name = "email")
+public class Email {
+
+	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	private Long id;
+	
+	@Column(length = 50, nullable = false)
+	private String email;
+		
+	@ManyToMany(mappedBy = "emails", fetch = FetchType.EAGER)
+	private List<User> users = new ArrayList<>();
+	
+	protected Email() {		
+	}
+...				
+	public List<User> getUsers() {
+		return Collections.unmodifiableList(users);
+	}
+	
+	public void addUser(User user) {
+		this.users.add(user);
+	}
+...
+}
+```
+
+The `User` entity, as the owner of the relationship, is the one that uses the `@JoinTable` annotation to prevent being assigned to the same `Email` instance more than once:
+
+```java
+@Entity
+@Table(name = "user")
+public class User {
+
+	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	private Long id;
+	
+	@Column(length = 50, nullable = false)
+	private String username;
+	
+	@Column(length = 50, nullable = false)
+	private String password;
+	
+	@ManyToMany(fetch = FetchType.EAGER)
+	@JoinTable(uniqueConstraints = { @UniqueConstraint(columnNames = { "users_id", "emails_id" }) })
+	private Set<Email> emails = new HashSet<>();
+	
+	protected User() {		
+	}
+...
+	public Set<Email> getEmails() {
+		return Collections.unmodifiableSet(emails);
+	}
+	
+	public void addEmail(Email email) {
+		this.emails.add(email);
+	}		
+...
+}
+```
+
+A working example of this scenario can be found in [011 &mdash; Many-to-Many: Bidirectional Link Table (with an owner)](011-many-to-many-bidirectional-link-table-with-owner/).
+
+#### D) Bidirectional Many-to-Many Association (without owner)
+
+In this scenario, we implement the many-to-many association, navigable from the `User` to the associated `Email` instances and vice versa:
+
+![Many-to-Many: Bidirectional](images/09-many-to-many-bidirectional-link-table-with-owner.png)
+
+However, in this case we won't make neither the `User` nor the `Email` the owners of the relationship and therefore, we will have four tables instead of three to support the relationship:
+
+![Many-to-Many: DB diagram](images/10-many-to-many-bidirectional-four-tables-diagram.png)
+
+The `Email` entity features the `@ManyToMany` and the `@JoinTable` annotation to customize the unique constraint:
+
+```java
+@Entity
+@Table(name = "email")
+public class Email {
+
+	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	private Long id;
+	
+	@Column(length = 50, nullable = false)
+	private String email;
+		
+	@ManyToMany(fetch = FetchType.EAGER)
+	@JoinTable(uniqueConstraints = { @UniqueConstraint(columnNames = { "email_id", "users_id" })})
+	private List<User> users = new ArrayList<>();
+	
+	protected Email() {		
+	}
+...			
+	public List<User> getUsers() {
+		return Collections.unmodifiableList(users);
+	}
+	
+	public void addUser(User user) {
+		this.users.add(user);
+	}
+...
+}
+```
+
+And exactly the same for the `User` entity:
+
+```java
+@Entity
+@Table(name = "user")
+public class User {
+
+	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	private Long id;
+	
+	@Column(length = 50, nullable = false)
+	private String username;
+	
+	@Column(length = 50, nullable = false)
+	private String password;
+	
+	@ManyToMany(fetch = FetchType.EAGER)
+	@JoinTable(uniqueConstraints = { @UniqueConstraint(columnNames = { "user_id", "emails_id" }) })
+	private Set<Email> emails = new HashSet<>();
+	
+	protected User() {		
+	}
+...	
+	public Set<Email> getEmails() {
+		return Collections.unmodifiableSet(emails);
+	}
+	
+	public void addEmail(Email email) {
+		this.emails.add(email);
+	}
+...
+}
+```
+
+There is a working example of this scenario in [012 &mdash; Many-to-Many: Bidirectional Link Tables (without an owner)](012-many-to-many-bidirectional-link-tables-without-owner/).

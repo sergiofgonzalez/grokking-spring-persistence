@@ -44,3 +44,14 @@
       + [Sample 7 &mdash; Many-to-One: Unidirectional Link Table](02-using-jpa-for-modeling-entity-relationships/007-many-to-one-unidirectional-link-table)  
     + [C) Bidirectional One-to-Many Association with link table](02-using-jpa-for-modeling-entity-relationships/README.md#c-bidirectional-one-to-many-association-with-link-table)
       + [Sample 8 &mdash; One-to-Many: Bidirectional Link Table](02-using-jpa-for-modeling-entity-relationships/008-one-to-many-bidirectional-link-table)
+
++ [C. Mapping Many-to-Many Associations](02-using-jpa-for-modeling-entity-relationships/README.md#c-mapping-many-to-many-associations)
+  + [C1. Many-to-Many: Link Table](02-using-jpa-for-modeling-entity-relationships/README.md#c1-many-to-many-link-table)
+    + [A) Unidirectional Many-to-Many Association: User as Owner](02-using-jpa-for-modeling-entity-relationships/README.md#a-unidirectional-many-to-many-association-user-as-owner)
+      + [Sample 9 &mdash; Many to Many Unidirectional Link Table (user owning the relationship)](02-using-jpa-for-modeling-entity-relationships/009-many-to-many-unidirectional-link-table-user-owns)
+    + [B) Unidirectional Many-to-Many Association: Email as Owner](02-using-jpa-for-modeling-entity-relationships/README.md#b-unidirectional-many-to-many-association-email-as-owner)
+      + [010 &mdash; Many-to-Many: Unidirectional Link Table (email owning the relationship)](02-using-jpa-for-modeling-entity-relationships/010-many-to-many-unidirectional-link-table-email-owns/).]
+    + [C) Bidirectional Many-to-Many Association (with owner)](02-using-jpa-for-modeling-entity-relationships/README.md#c-bidirectional-many-to-many-association-with-owner)
+      + [011 &mdash; Many-to-Many: Bidirectional Link Table (with owner)](02-using-jpa-for-modeling-entity-relationships/011-many-to-many-bidirectional-link-table-with-owner/).]
+    + [D) Bidirectional Many-to-Many Association (without owner)](02-using-jpa-for-modeling-entity-relationships/README.md#d-bidirectional-many-to-many-association-without-owner)
+      + [012 &mdash; Many-to-Many: Bidirectional Link Tables (without owner)](02-using-jpa-for-modeling-entity-relationships/012-many-to-many-bidirectional-link-tables-without-owner/).]

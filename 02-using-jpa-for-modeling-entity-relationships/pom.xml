@@ -27,6 +27,10 @@
     <module>005-one-to-many-bidirectional</module>
     <module>006-one-to-many-unidirectional-link-table</module>
     <module>007-many-to-one-unidirectional-link-table</module>
-    <module>008-one-to-many-bidirectional-link-table</module>    
+    <module>008-one-to-many-bidirectional-link-table</module>
+    <module>009-many-to-many-unidirectional-link-table-user-owns</module>
+    <module>010-many-to-many-unidirectional-link-table-email-owns</module>
+    <module>011-many-to-many-bidirectional-link-table-with-owner</module>
+    <module>012-many-to-many-bidirectional-link-tables-without-owner</module>
   </modules>             
 </project>

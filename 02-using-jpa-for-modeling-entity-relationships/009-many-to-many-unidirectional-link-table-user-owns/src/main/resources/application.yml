@@ -17,7 +17,7 @@ spring:
     
   jpa:
     show-sql: true
-#    hibernate.ddl-auto: create  # use `create` to force creation of tables from JPA annotations
+    hibernate.ddl-auto: validate  # use `create` to force creation of tables from JPA annotations
     
     properties:
       hibernate.dialect: org.hibernate.dialect.MySQL57Dialect # this is needed; otherwise MyISAM engine is used instead of InnoDB
