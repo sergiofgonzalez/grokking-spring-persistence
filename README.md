@@ -54,4 +54,4 @@
     + [C) Bidirectional Many-to-Many Association (with owner)](02-using-jpa-for-modeling-entity-relationships/README.md#c-bidirectional-many-to-many-association-with-owner)
       + [011 &mdash; Many-to-Many: Bidirectional Link Table (with owner)](02-using-jpa-for-modeling-entity-relationships/011-many-to-many-bidirectional-link-table-with-owner/).]
     + [D) Bidirectional Many-to-Many Association (without owner)](02-using-jpa-for-modeling-entity-relationships/README.md#d-bidirectional-many-to-many-association-without-owner)
-      + [012 &mdash; Many-to-Many: Bidirectional Link Tables (without owner)](02-using-jpa-for-modeling-entity-relationships/012-many-to-many-bidirectional-link-tables-without-owner/).]
+      + [012 &mdash; Many-to-Many: Bidirectional Link Tables (without owner)](02-using-jpa-for-modeling-entity-relationships/012-many-to-many-bidirectional-link-tables-without-owner/)
