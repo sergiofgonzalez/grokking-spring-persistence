@@ -50,7 +50,7 @@
     + [A) Unidirectional Many-to-Many Association: User as Owner](02-using-jpa-for-modeling-entity-relationships/README.md#a-unidirectional-many-to-many-association-user-as-owner)
       + [Sample 9 &mdash; Many to Many Unidirectional Link Table (user owning the relationship)](02-using-jpa-for-modeling-entity-relationships/009-many-to-many-unidirectional-link-table-user-owns)
     + [B) Unidirectional Many-to-Many Association: Email as Owner](02-using-jpa-for-modeling-entity-relationships/README.md#b-unidirectional-many-to-many-association-email-as-owner)
-      + [010 &mdash; Many-to-Many: Unidirectional Link Table (email owning the relationship)](02-using-jpa-for-modeling-entity-relationships/010-many-to-many-unidirectional-link-table-email-owns/).]
+      + [010 &mdash; Many-to-Many: Unidirectional Link Table (email owning the relationship)](02-using-jpa-for-modeling-entity-relationships/010-many-to-many-unidirectional-link-table-email-owns/)]
     + [C) Bidirectional Many-to-Many Association (with owner)](02-using-jpa-for-modeling-entity-relationships/README.md#c-bidirectional-many-to-many-association-with-owner)
       + [011 &mdash; Many-to-Many: Bidirectional Link Table (with owner)](02-using-jpa-for-modeling-entity-relationships/011-many-to-many-bidirectional-link-table-with-owner/)]
     + [D) Bidirectional Many-to-Many Association (without owner)](02-using-jpa-for-modeling-entity-relationships/README.md#d-bidirectional-many-to-many-association-without-owner)
