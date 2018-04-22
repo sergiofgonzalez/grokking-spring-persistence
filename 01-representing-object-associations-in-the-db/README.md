@@ -15,8 +15,8 @@ Given two entities, the following simple method lets you decide the persistence 
 
 ![Association](./images/01-association.png)
 
-q1: Can Entity2 belong to more than one Entity1?
-q2: Can Entity1 have more than one Entity2?
++ q1: Can Entity2 belong to more than one Entity1?
++ q2: Can Entity1 have more than one Entity2?
 
 | q1  | q2  | Relationship | UML Representation                                                    |                                                    
 |-----|-----|--------------|-----------------------------------------------------------------------|
